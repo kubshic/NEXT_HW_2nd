@@ -4,19 +4,20 @@ import { GNB_TYPE, PRODUCTS } from 'constants/common';
 import styled from '@emotion/styled';
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { CartContext } from 'context/CartContext';
+import { useCartStore } from 'store/CartStore';
 
 function ProductPage() {
     const { id } = useParams();
+    const { cart, setCart } = useCartStore();
     const product = PRODUCTS[parseInt(id)];
-    const { cart, setCart } = useContext(CartContext);
 
     const handleCart = (product) => {
         if (cart.find((item) => item.id === product.id)) {
             alert('이미 장바구니에 추가된 상품입니다.');
             return;
         }
-        setCart((prev) => [...prev, product]);
+        const newCart = [...cart, product];
+        setCart(newCart);
         alert('장바구니에 추가되었습니다.');
     };
 
