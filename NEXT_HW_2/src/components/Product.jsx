@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Button } from './Button';
 import { useNavigate } from 'react-router-dom';
 import { PAGE } from 'constants/common';
 import { Box } from 'styles/StyleComponent';
-import { CartContext } from '../context/CartContext';
+import { useCartStore } from 'store/CartStore';
 
 export const Product = ({ product, ...rest }) => {
     const navigate = useNavigate();
     // 3. useContext 훅을 이용해, context에서 정의된 cart, setcart 사용
-    const { cart, setCart } = useContext(CartContext);
+    const { cart, setCart } = useCartStore();
 
     const handleCart = (product) => {
         if (cart.find((item) => item.id === product.id)) {
             alert('이미 장바구니에 추가된 상품입니다.');
             return;
         }
-        setCart((prev) => [...prev, product]);
+        const newCart = [...cart, product];
+        setCart(newCart);
         alert('장바구니에 추가되었습니다.');
     };
 
